@@ -21,14 +21,13 @@ interface Props {
    * You won't need it on your project.
    */
   window?: () => Window;
- children: any;
+  children?: any;
 }
 
 const drawerWidth = 240;
 const navItems = ["Home", "Pets", "Doar", "Contato"];
 
 export default function Navbar(props: Props) {
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -53,14 +52,11 @@ export default function Navbar(props: Props) {
     </Box>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box className="flex">
       <CssBaseline />
       <AppBar component="nav">
-        <Toolbar>
+        <Toolbar className="bg-blue-500">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -91,13 +87,17 @@ export default function Navbar(props: Props) {
           >
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }}>
-                <Link style={{textDecoration: "none", color: "white"}} to={`/${item}`}>{item}</Link>
+                <Link
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={`/${item}`}
+                >
+                  {item}
+                </Link>
               </Button>
             ))}
           </Box>
         </Toolbar>
       </AppBar>
-      
     </Box>
   );
 }

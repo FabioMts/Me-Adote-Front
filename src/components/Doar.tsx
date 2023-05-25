@@ -1,9 +1,10 @@
 import React from "react";
-import "../Doar.css";
+import PageHeader from "./PageHeader/PageHeader";
+
 const Doar = () => {
   return (
-    <div className="header">
-      <span>Fazer uma Doação ❤️</span>
+    <div className="w-full">
+      <PageHeader title="Fazer uma Doação ❤️" />;
     </div>
   );
 };

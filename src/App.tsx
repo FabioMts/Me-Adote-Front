@@ -1,11 +1,3 @@
-import { useState } from "react";
-import "./App.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-// import { Navigation, Pagination } from "swiper";
-import adote from "../src/assets/adopt.jpg";
-import adopt from "../src/assets/adote.png";
-import adotecao from "../src/assets/adote-cachorro.png";
-import Button from "@mui/material/Button";
 import Navbar from "./components/navbar/Navbar";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,32 +7,38 @@ import Contato from "./components/Contato";
 import Home from "./components/Home";
 import Pets from "./components/Pets";
 import Doar from "./components/Doar";
-import Swipeable from "./components/Swipeable";
 import Anunciar from "./components/Anunciar";
 import Footer from "./components/Footer";
+import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  palette: {
+    primary: { main: "#3B82F6" },
+  },
+} as any);
 
 function App() {
   return (
-    <div className="header-bg">
-      <div>
-        <Navbar children={undefined}></Navbar>
-      </div>
-      <div className="central">
-        <Routes>
-          <Route path="Home" element={<Home />} />
-          <Route path="Pets" element={<Pets />} />
-          <Route path="Doar" element={<Doar />} />
-          <Route path="Contato" element={<Contato />} />
-          <Route path="Anunciar" element={<Anunciar />} />
-        </Routes>
-      </div>
+    <ThemeProvider theme={theme}>
+      <div className="flex flex-col w-full justify-between min-h-screen">
+        <div>
+          <Navbar />
+        </div>
+        <div className="flex mt-16 flex-col flex-1">
+          <Routes>
+            <Route path="Home" element={<Home />} />
+            <Route path="Pets" element={<Pets />} />
+            <Route path="Doar" element={<Doar />} />
+            <Route path="Contato" element={<Contato />} />
+            <Route path="Anunciar" element={<Anunciar />} />
+          </Routes>
+        </div>
 
-      <div className="embaixo">
-        <footer>
+        <footer className="flex flex-row items-center justify-center">
           <Footer></Footer>
         </footer>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
