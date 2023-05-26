@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router";
 import Contato from "./components/Contato";
 import Home from "./components/Home";
 import Pets from "./components/Pets";
+import PetDetail from "./components/PetDetail";
 import Doar from "./components/Doar";
 import Anunciar from "./components/Anunciar";
 import Footer from "./components/Footer";
@@ -28,6 +29,7 @@ function App() {
           <Routes>
             <Route path="Home" element={<Home />} />
             <Route path="Pets" element={<Pets />} />
+            <Route path="/pet/:id" element={<PetDetail />} />
             <Route path="Doar" element={<Doar />} />
             <Route path="Contato" element={<Contato />} />
             <Route path="Anunciar" element={<Anunciar />} />

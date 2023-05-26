@@ -3,10 +3,13 @@ import api from "../config/api";
 import PetCard from "./PetCard/PetCard";
 import PageHeader from "./PageHeader/PageHeader";
 import { Pet } from "../types/Pet.type";
+import { useNavigate } from "react-router";
 
 const Pets = () => {
   
   const [pets, setPets] = React.useState<Pet[]>([]);
+  const navigate = useNavigate()
+
   const getPets = async () => {
     const response = await api.get("/animal");
     setPets(response.data);
@@ -14,6 +17,10 @@ const Pets = () => {
   React.useEffect(() => {
     getPets();
   }, []);
+
+  const goToPetPage = (id: number) => {
+    navigate(`/pet/${id}`)
+  }
 
   return (
     <div className="w-full">
@@ -28,6 +35,7 @@ const Pets = () => {
               faixaEtaria={pet.faixaEtaria}
               porte={pet.porte}
               sexo={pet.sexo}
+              onClick={() => goToPetPage(pet.id!!)}
             ></PetCard>
           );
         })}

@@ -14,9 +14,10 @@ export default function PetCard({
   porte,
   sexo,
   className,
+  onClick
 }: any) {
   return (
-    <Card className={className} sx={{ maxWidth: 345 }}>
+    <Card className={className} sx={{ maxWidth: 345 }} onClick={onClick}>
       <CardMedia
         component="img"
         alt="green iguana"

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import PageHeader from "./PageHeader/PageHeader";
 import {
   Box,
@@ -13,9 +12,13 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { Pet } from "../types/Pet.type";
+import api from "../config/api";
+import { useNavigate } from "react-router";
 
 const Anunciar: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState<Pet>({
     name: "",
     especie: "",
     porte: "",
@@ -24,14 +27,20 @@ const Anunciar: React.FC = () => {
     nomeTutor: "",
     telefoneTutor: "",
     descricao: "",
+    agressivo: false,
+    brincalhao: false,
+    carente: false,
+    castrado: false,
+    sociavel: false,
+    vacinado: false,
   });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/animal", formData);
-      console.log(response.data); // Faça o que for necessário com a resposta
+      const response = await api.post("/animal", formData);
+      navigate('/pet/'+response.data.id)
     } catch (error) {
       console.error(error);
     }
@@ -45,10 +54,24 @@ const Anunciar: React.FC = () => {
       [event.target.name as string]: event.target.value as string,
     });
   };
+
+  const handleSelectChange = (campo: string, e: any) => {
+    setFormData({
+      ...formData,
+      [campo]: e.target.value,
+    });
+  };
+
+  const handleCheckboxChange = (campo: string, e: any) => {
+    setFormData({
+      ...formData,
+      [campo]: e.target.checked,
+    });
+  };
+
   return (
     <div>
       <PageHeader title="Anuncie seu Pet para ganhar um novo Lar! 🐕" />
-
       <div className="flex flex-col justify-center items-center">
         <Box
           component="form"
@@ -65,18 +88,21 @@ const Anunciar: React.FC = () => {
               value={formData.name}
               multiline
               maxRows={4}
+              onChange={handleChange}
             />
             <TextField
               label="Nome do Tutor"
               name="nomeTutor"
               value={formData.nomeTutor}
               multiline
+              onChange={handleChange}
             />
             <TextField
               label="Telefone tutor"
               name="telefoneTutor"
               value={formData.telefoneTutor}
               multiline
+              onChange={handleChange}
             />
           </div>
         </Box>
@@ -87,7 +113,12 @@ const Anunciar: React.FC = () => {
           <Box sx={{ m: 1, width: "25ch" }}>
             <FormControl fullWidth onSubmit={handleSubmit}>
               <InputLabel>Especie</InputLabel>
-              <Select name="especie" value={formData.especie} label="Especie">
+              <Select
+                name="especie"
+                value={formData.especie}
+                label="Especie"
+                onChange={(value) => handleSelectChange("especie", value)}
+              >
                 <MenuItem value="gato">Gato</MenuItem>
                 <MenuItem value="cachorro">Cachorro</MenuItem>
               </Select>
@@ -102,6 +133,7 @@ const Anunciar: React.FC = () => {
                 name="faixaEtaria"
                 value={formData.faixaEtaria}
                 label="Descricao"
+                onChange={(value) => handleSelectChange("faixaEtaria", value)}
               >
                 <MenuItem value="filhote">Filhote</MenuItem>
                 <MenuItem value="jovem">Jovem</MenuItem>
@@ -114,7 +146,12 @@ const Anunciar: React.FC = () => {
           <Box sx={{ m: 1, width: "25ch" }}>
             <FormControl fullWidth>
               <InputLabel>Porte</InputLabel>
-              <Select name="porte" value={formData.porte} label="Porte">
+              <Select
+                name="porte"
+                value={formData.porte}
+                label="Porte"
+                onChange={(value) => handleSelectChange("porte", value)}
+              >
                 <MenuItem value="pequeno">Pequeno</MenuItem>
                 <MenuItem value="medio">Medio</MenuItem>
                 <MenuItem value="grande">Grande</MenuItem>
@@ -126,7 +163,12 @@ const Anunciar: React.FC = () => {
           <Box sx={{ m: 1, width: "25ch" }}>
             <FormControl fullWidth>
               <InputLabel>Sexo</InputLabel>
-              <Select name="sexo" value={formData.sexo} label="Sexo">
+              <Select
+                name="sexo"
+                value={formData.sexo}
+                label="Sexo"
+                onChange={(value) => handleSelectChange("sexo", value)}
+              >
                 <MenuItem value="macho">Macho</MenuItem>
                 <MenuItem value="femea">Fêmea</MenuItem>
               </Select>
@@ -148,6 +190,9 @@ const Anunciar: React.FC = () => {
             <TextField
               id="outlined-multiline-static"
               label="Descrição"
+              name="descricao"
+              value={formData.descricao}
+              onChange={handleChange}
               multiline
               rows={4}
               defaultValue=""
@@ -156,36 +201,42 @@ const Anunciar: React.FC = () => {
             <FormGroup>
               <div className="">
                 <FormControlLabel
-                  value="end"
+                  value={formData.agressivo}
                   control={<Checkbox />}
                   label="Agressivo"
+                  onChange={(e) => handleCheckboxChange("agressivo", e)}
                 />
                 <FormControlLabel
-                  value="end"
+                  value={formData.brincalhao}
                   control={<Checkbox />}
                   label="Brincalhão"
+                  onChange={(e) => handleCheckboxChange("brincalhao", e)}
                 />
                 <FormControlLabel
-                  value="end"
+                  value={formData.castrado}
                   control={<Checkbox />}
                   label="Castrado"
+                  onChange={(e) => handleCheckboxChange("castrado", e)}
                 />
               </div>
               <div className="">
                 <FormControlLabel
-                  value="end"
+                  value={formData.sociavel}
                   control={<Checkbox />}
                   label="Sociável"
+                  onChange={(e) => handleCheckboxChange("sociavel", e)}
                 />
                 <FormControlLabel
-                  value="end"
+                  value={formData.vacinado}
                   control={<Checkbox />}
                   label="Vacinado"
+                  onChange={(e) => handleCheckboxChange("vacinado", e)}
                 />
                 <FormControlLabel
-                  value="end"
+                  value={formData.carente}
                   control={<Checkbox />}
                   label="Carente"
+                  onChange={(e) => handleCheckboxChange("carente", e)}
                 />
               </div>
             </FormGroup>
